@@ -2,10 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
-np.random.seed(12345)
-
-data = pd.read_csv("assignment1_data.csv") 
-#print(data.head())     
+data = pd.read_csv("assignment1_data.csv")  
 data=data.to_numpy()
 x=data[:,0];
 y=data[:,1];
@@ -35,22 +32,10 @@ for i in range(N):
 
 w0 = w_history[:,0]
 w3 = w_history[:,2]
-# plt.plot(w0, w3)
-# plt.show()
+plt.plot(w0, w3)
+plt.show()
 
 
-# X1, X2 = np.meshgrid(x1, x2)
-# Y = np.sqrt(np.square(X1) + np.square(X2))
-
-
-# levels = [0.0, 1.0, 2.0, 4.0, 8.0, 12.0, 14.0]
-# cp = plt.contour(X1, X2, Y, levels, colors='black', linestyles='dashed', linewidths=1)
-# plt.clabel(cp, inline=1, fontsize=10)
-# cp = plt.contourf(X1, X2, Y, levels)
-# plt.xlabel('X1')
-# plt.ylabel('X2')
-
-# print('finish')
 
 
         
