@@ -23,17 +23,28 @@ x_delayed = np.zeros((length, 1))
 w_history = np.zeros((1,length))
 e_history = []
 
+gamma = 1 - (10**-4)
+epsilon = 0.000001;
+
 for i in range(N):
     x_delayed = np.vstack([x[i], x_delayed[0:length-1]])
     y_hat = np.transpose(w).dot(x_delayed)
     e = y[i] - y_hat
     e_history.append(e)
     w_history=np.append(w_history, np.transpose(w), axis=0)
-    
+    sigma = (np.dot(np.transpose(x_delayed),x_delayed)/length)+epsilon;
     ### Different Methods ###
-    w = w + 2 * alpha * x_delayed.dot(e) #LMS
+    
     #w = w - alpha * (-2*(ryx - Rx.dot(w))) #SGD
     #w = w + 2 * alpha * Rx_inv.dot(ryx - Rx.dot(w)) #Newton
+    #w = w + 2 * alpha * np.dot(x_delayed,e) #LMS
+    #w = w + ((2 * alpha)/sigma) * np.dot(x_delayed,e);#NLMS
+    Rx_inv_old = Rx_inv;
+    ryx_old = ryx;
+    g = ((Rx_inv_old * x_delayed) / (gamma**2 + np.transpose(x_delayed) * Rx_inv_old * x_delayed));
+    Rx_inv = gamma**-2 * (Rx_inv_old - np.dot(g,np.transpose(x_delayed)) * Rx_inv_old);
+    ryx = gamma**2 * ryx_old + np.dot(x_delayed * y[i]);
+    w = np.dot(Rx_inv, ryx);#RLS
 
 
 ### contourplot ###
